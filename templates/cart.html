@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart – Tindahan ng mga Ala-ala</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <a href="/home">Home</a> | <a href="/cart">Cart</a> | <a href="/logout">Logout</a>
+    </header>
+    <main>
+        <h2>Your Cart</h2>
+        {% if cart_items %}
+        <form method="POST" action="/update_cart">
+            <table border="1">
+                <thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr></thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>₱{{ item.price }}</td>
+                        <td><input type="number" name="qty_{{ item.id }}" value="{{ item.quantity }}" min="0"></td>
+                        <td>₱{{ item.subtotal }}</td>
+                        <td><a href="#" onclick="removeItem('{{ item.id }}')">X</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p><strong>Total: ₱{{ total }}</strong></p>
+            <button type="submit">Update Cart</button>
+            <button type="button" onclick="alert('Checkout demo')">Checkout</button>
+        </form>
+        {% else %}
+        <p>Cart is empty.</p>
+        {% endif %}
+    </main>
+    <script>
+        function removeItem(id) {
+            const input = document.querySelector(`input[name="qty_${id}"]`);
+            if (input) input.value = 0;
+            document.querySelector('form').submit();
+        }
+    </script>
+</body>
+</html>
