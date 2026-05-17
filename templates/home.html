@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tindahan ng mga Ala-ala – Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/about">About</a>
+            <a href="/service">Service</a>
+            <a href="/contact">Contact</a>
+            <a href="/cart">Cart</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero section (you will add golden frame) -->
+        <div class="hero">
+            <h1>Ala-ala</h1>
+            <p>Where every meal brings back a memory</p>
+        </div>
+
+        <!-- Best Sellers -->
+        <section class="best-sellers">
+            <h2>Best Sellers</h2>
+            <div class="menu-grid">
+                {% for item in best_sellers %}
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.desc }}</p>
+                    <span class="price">₱{{ item.price }}</span>
+                    <a href="/add_to_cart/{{ item.id }}">Add to Cart</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- All categories -->
+        {% for category, items in menu.items() %}
+        <section class="menu-section">
+            <h2>{{ category }}</h2>
+            <div class="menu-grid">
+                {% for item in items %}
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.desc }}</p>
+                    <span class="price">₱{{ item.price }}</span>
+                    <a href="/add_to_cart/{{ item.id }}">Add to Cart</a>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
+    </main>
+
+    <footer>
+        <p>Contact: hello@reallygreatsite.com | +123-456-7890</p>
+        <p>&copy; 2026 Tindahan ng mga Ala-ala</p>
+    </footer>
+</body>
+</html>
