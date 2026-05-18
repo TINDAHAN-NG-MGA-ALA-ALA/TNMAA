@@ -1,0 +1,11 @@
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #0f0702;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+.gold { color: #C4892A; }
+
+/* TODO: Add golden corner frame, grid, glass cards, responsive, background image with overlay, etc. */
