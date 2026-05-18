@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tindahan ng mga Ala-ala – Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-body">
+    <div class="login-container-simple">
+        <div class="login-logo">
+            <div class="login-logo-text">
+                <div class="sm">tindahan ng mga</div>
+                <div class="lg">Ala-ala</div>
+            </div>
+        </div>
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="ENTER USERNAME" autocomplete="off">
+            <div class="login-forgot">Forgot Password?</div>
+            <button type="submit" class="login-btn">LOGIN</button>
+        </form>
+    </div>
+</body>
+</html>
