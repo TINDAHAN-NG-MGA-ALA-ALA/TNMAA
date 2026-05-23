@@ -2,11 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Services – Tindahan ng mga Ala-ala</title>
+    <title>Tindahan ng mga Ala-ala – Services</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <header>...</header>
+    <header>
+        <a href="/home" class="logo">
+            <div class="logo-text">
+                <div class="logo-small">tindahan ng mga</div>
+                <div class="logo-big">Ala-ala</div>
+            </div>
+        </a>
+        <nav>
+            <a href="/home">Home</a>
+            <a href="/about">About Us</a>
+            <a href="/service">Service</a>
+            <a href="/contact">Contact Us</a>
+            <a href="/cart" class="btn-nav">Cart</a>
+            <a href="/logout" class="btn-nav btn-gold">Logout</a>
+        </nav>
+    </header>
+
     <main class="info-page">
         <div class="info-card">
             <h2>Our Services</h2>
@@ -18,6 +34,21 @@
             </ul>
         </div>
     </main>
-    <footer>...</footer>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: hello@reallygreatsite.com</p>
+                <p>Phone: +123-456-7890</p>
+                <p>Address: 123 Anywhere St., Any City</p>
+            </div>
+            <div class="footer-section">
+                <h3>Tindahan ng mga Ala-ala</h3>
+                <p>Where every meal brings back a memory</p>
+                <p>&copy; 2026 All rights reserved</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

@@ -3,7 +3,7 @@
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-this'
 
-# ---------- MENU DATA (to be filled by Hulyu) ----------
+# ---------- MENU DATA ----------
 menu = {
     "Appetizers": [
         {"id": 1, "name": "Lumpiang Shanghai", "price": 149, "desc": "Crispy spring rolls", "image": "lumpia.jpg"},
@@ -37,6 +37,40 @@ best_sellers = [
     {"id": 7, "name": "Beef Bulalo", "price": 299, "desc": "Beef soup", "image": "bulalo.jpg"},
 ]
 
+# ---------- DSA FEATURES ----------
+# 1. Binary search helper
+def binary_search_menu(query, items_list):
+    """Binary search on sorted list of menu items by name."""
+    low, high = 0, len(items_list) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if items_list[mid]['name'].lower() == query.lower():
+            return items_list[mid]
+        elif items_list[mid]['name'].lower() < query.lower():
+            low = mid + 1
+        else:
+            high = mid - 1
+    return None
+
+# 2. Quicksort by price
+def quicksort_price(items):
+    if len(items) <= 1:
+        return items
+    pivot = items[len(items) // 2]['price']
+    left = [item for item in items if item['price'] < pivot]
+    middle = [item for item in items if item['price'] == pivot]
+    right = [item for item in items if item['price'] > pivot]
+    return quicksort_price(left) + middle + quicksort_price(right)
+
+# 3. FIFO queue for orders
+order_queue = []
+
+# 4. Recursive total calculator
+def recursive_sum(items, index=0):
+    if index >= len(items):
+        return 0
+    return items[index]['price'] * items[index]['quantity'] + recursive_sum(items, index + 1)
+
 # ---------- ROUTES ----------
 @app.route('/')
 def login_page():
@@ -54,7 +88,16 @@ def do_login():
 def home():
     if 'user' not in session:
         return redirect(url_for('login_page'))
-    return render_template('home.html', user=session['user'], menu=menu, best_sellers=best_sellers)
+    sort_by = request.args.get('sort')
+    if sort_by == 'price':
+        all_items = []
+        for cat_items in menu.values():
+            all_items.extend(cat_items)
+        sorted_items = quicksort_price(all_items)
+        sorted_menu = {"Sorted by Price": sorted_items}
+        return render_template('home.html', user=session['user'], menu=sorted_menu, best_sellers=best_sellers)
+    else:
+        return render_template('home.html', user=session['user'], menu=menu, best_sellers=best_sellers)
 
 @app.route('/about')
 def about():
@@ -73,6 +116,18 @@ def contact():
     if 'user' not in session:
         return redirect(url_for('login_page'))
     return render_template('contact.html', user=session['user'])
+
+@app.route('/search')
+def search():
+    if 'user' not in session:
+        return redirect(url_for('login_page'))
+    query = request.args.get('q', '')
+    all_items = []
+    for cat_items in menu.values():
+        all_items.extend(cat_items)
+    sorted_items = sorted(all_items, key=lambda x: x['name'].lower())
+    result = binary_search_menu(query, sorted_items) if query else None
+    return render_template('search_results.html', user=session['user'], query=query, result=result)
 
 @app.route('/add_to_cart/<int:item_id>')
 def add_to_cart(item_id):
@@ -101,7 +156,8 @@ def view_cart():
                 'quantity': qty,
                 'subtotal': subtotal
             })
-    return render_template('cart.html', cart_items=cart_items, total=total)
+    recursive_total = recursive_sum(cart_items)
+    return render_template('cart.html', cart_items=cart_items, total=total, recursive_total=recursive_total)
 
 @app.route('/update_cart', methods=['POST'])
 def update_cart():
@@ -114,6 +170,39 @@ def update_cart():
             cart.pop(key, None)
     session['cart'] = cart
     return redirect(url_for('view_cart'))
+
+@app.route('/place_order')
+def place_order():
+    if 'user' not in session:
+        return redirect(url_for('login_page'))
+    cart = session.get('cart', {})
+    if not cart:
+        return redirect(url_for('view_cart'))
+    all_items = [item for cat in menu.values() for item in cat]
+    items_ordered = []
+    total = 0
+    for item_id, qty in cart.items():
+        item = next((i for i in all_items if i['id'] == int(item_id)), None)
+        if item:
+            subtotal = item['price'] * qty
+            total += subtotal
+            items_ordered.append({'name': item['name'], 'qty': qty, 'price': item['price']})
+    order = {
+        'order_id': len(order_queue) + 1,
+        'user': session['user'],
+        'items': items_ordered,
+        'total': total,
+        'status': 'pending'
+    }
+    order_queue.append(order)   # enqueue
+    session.pop('cart', None)
+    return redirect(url_for('kitchen_queue'))
+
+@app.route('/kitchen_queue')
+def kitchen_queue():
+    if 'user' not in session:
+        return redirect(url_for('login_page'))
+    return render_template('kitchen_queue.html', user=session['user'], orders=order_queue)
 
 @app.route('/logout')
 def logout():

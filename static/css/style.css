@@ -485,3 +485,43 @@ footer {
     .cart-page { flex-direction: column; padding: 30px 24px; }
     .login-container-simple { width: 90%; padding: 32px 24px; }
 }
+
+/* ---------- DSA FEATURES (search, sort, queue) ---------- */
+.search-section, .sort-buttons {
+    text-align: center;
+    margin: 20px 0;
+}
+.search-section input {
+    padding: 10px 20px;
+    width: 280px;
+    border-radius: 40px;
+    border: none;
+    font-size: 1rem;
+}
+.search-section button, .sort-btn {
+    background: var(--gold);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: bold;
+}
+.sort-btn {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    text-decoration: none;
+}
+.sort-btn:hover, .search-section button:hover {
+    background: var(--gold-dark);
+}
+.order-item {
+    background: rgba(0,0,0,0.4);
+    padding: 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+.order-item ul {
+    margin-left: 20px;
+}

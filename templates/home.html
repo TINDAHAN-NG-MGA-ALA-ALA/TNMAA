@@ -7,51 +7,78 @@
 </head>
 <body>
     <header>
+        <a href="/home" class="logo">
+            <div class="logo-text">
+                <div class="logo-small">tindahan ng mga</div>
+                <div class="logo-big">Ala-ala</div>
+            </div>
+        </a>
         <nav>
             <a href="/home">Home</a>
-            <a href="/about">About</a>
+            <a href="/about">About Us</a>
             <a href="/service">Service</a>
-            <a href="/contact">Contact</a>
-            <a href="/cart">Cart</a>
-            <a href="/logout">Logout</a>
+            <a href="/contact">Contact Us</a>
+            <a href="/cart" class="btn-nav">Cart</a>
+            <a href="/kitchen_queue" class="btn-nav">Kitchen</a>
+            <a href="/logout" class="btn-nav btn-gold">Logout</a>
         </nav>
     </header>
 
-    <main>
-        <!-- Hero section (you will add golden frame) -->
-        <div class="hero">
-            <h1>Ala-ala</h1>
-            <p>Where every meal brings back a memory</p>
+    <main id="menu-section">
+        <!-- Search bar -->
+        <div class="search-section">
+            <form action="/search" method="GET">
+                <input type="text" name="q" placeholder="Search for a dish..." required>
+                <button type="submit">🔍 Search</button>
+            </form>
         </div>
 
-        <!-- Best Sellers -->
-        <section class="best-sellers">
-            <h2>Best Sellers</h2>
+        <!-- Sort buttons -->
+        <div class="sort-buttons">
+            <a href="/home" class="sort-btn">Reset Categories</a>
+            <a href="/home?sort=price" class="sort-btn">Sort by Price (Low to High)</a>
+        </div>
+
+        <div class="hero">
+            <div class="hero-eyebrow">tindahan ng mga</div>
+            <h1 class="hero-title">Ala-ala</h1>
+            <div class="hero-sub">Where every meal brings back a memory</div>
+        </div>
+
+        <section class="menu-section">
+            <h2 class="section-heading">Best Sellers</h2>
             <div class="menu-grid">
                 {% for item in best_sellers %}
-                <div class="menu-card">
-                    <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.desc }}</p>
-                    <span class="price">₱{{ item.price }}</span>
-                    <a href="/add_to_cart/{{ item.id }}">Add to Cart</a>
+                <div class="menu-card-wrap">
+                    <div class="menu-card">
+                        <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+                        <div class="menu-card-info">
+                            <h3>{{ item.name }}</h3>
+                            <div class="desc">{{ item.desc }}</div>
+                            <div class="price">₱{{ item.price }}</div>
+                        </div>
+                    </div>
+                    <a href="/add_to_cart/{{ item.id }}" class="add-to-cart">ADD TO CART</a>
                 </div>
                 {% endfor %}
             </div>
         </section>
 
-        <!-- All categories -->
         {% for category, items in menu.items() %}
         <section class="menu-section">
-            <h2>{{ category }}</h2>
+            <h2 class="section-heading">{{ category.upper() }}</h2>
             <div class="menu-grid">
                 {% for item in items %}
-                <div class="menu-card">
-                    <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.desc }}</p>
-                    <span class="price">₱{{ item.price }}</span>
-                    <a href="/add_to_cart/{{ item.id }}">Add to Cart</a>
+                <div class="menu-card-wrap">
+                    <div class="menu-card">
+                        <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+                        <div class="menu-card-info">
+                            <h3>{{ item.name }}</h3>
+                            <div class="desc">{{ item.desc }}</div>
+                            <div class="price">₱{{ item.price }}</div>
+                        </div>
+                    </div>
+                    <a href="/add_to_cart/{{ item.id }}" class="add-to-cart">ADD TO CART</a>
                 </div>
                 {% endfor %}
             </div>
@@ -60,8 +87,19 @@
     </main>
 
     <footer>
-        <p>Contact: hello@reallygreatsite.com | +123-456-7890</p>
-        <p>&copy; 2026 Tindahan ng mga Ala-ala</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: hello@tindahanalaala.com</p>
+                <p>Phone: +123-456-7890</p>
+                <p>Address: 123 Anywhere St., Any City</p>
+            </div>
+            <div class="footer-section">
+                <h3>Tindahan ng mga Ala-ala</h3>
+                <p>Where every meal brings back a memory</p>
+                <p>&copy; 2026 All rights reserved</p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

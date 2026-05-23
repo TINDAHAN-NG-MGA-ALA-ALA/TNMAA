@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tindahan ng mga Ala-ala – Contact</title>
+    <title>Search Results – Tindahan ng mga Ala-ala</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -19,31 +19,26 @@
             <a href="/service">Service</a>
             <a href="/contact">Contact Us</a>
             <a href="/cart" class="btn-nav">Cart</a>
+            <a href="/kitchen_queue" class="btn-nav">Kitchen</a>
             <a href="/logout" class="btn-nav btn-gold">Logout</a>
         </nav>
     </header>
 
     <main class="info-page">
         <div class="info-card">
-            <h2>Contact Us</h2>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <div class="label">Julius Jan Ven Fabiosa</div>
-                    <div class="value">juliusjanven.fabiosa@ustp.edu.ph</div>
+            <h2>Search Results for "{{ query }}"</h2>
+            {% if result %}
+                <div class="menu-card">
+                    <img src="{{ url_for('static', filename='images/' + result.image) }}" alt="{{ result.name }}">
+                    <h3>{{ result.name }}</h3>
+                    <p>{{ result.desc }}</p>
+                    <span class="price">₱{{ result.price }}</span>
+                    <a href="/add_to_cart/{{ result.id }}" class="add-to-cart">Add to Cart</a>
                 </div>
-                <div class="contact-item">
-                    <div class="label">Clent Lorence Mondelo</div>
-                    <div class="value">clentlorence.mondelo@ustp.edu.ph</div>
-                </div>
-                <div class="contact-item">
-                    <div class="label">Shaina Mae Perong</div>
-                    <div class="value">shainamae.perong@ustp.edu.ph</div>
-                </div>
-                <div class="contact-item">
-                    <div class="label">General Inquiries</div>
-                    <div class="value">hello@tindahanalaala.com</div>
-                </div>
-            </div>
+            {% else %}
+                <p>No dish found with that name.</p>
+            {% endif %}
+            <a href="/home" class="btn-cart">Back to Menu</a>
         </div>
     </main>
 
