@@ -64,6 +64,8 @@ def quicksort_price(items):
 
 # 3. FIFO queue for orders
 order_queue = []
+    order_queue.append(order)
+    return render_template('kitchen_queue.html', orders=order_queue)
 
 # 4. Recursive total calculator
 def recursive_sum(items, index=0):
