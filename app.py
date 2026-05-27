@@ -64,6 +64,8 @@ def quicksort_price(items):
 
 # 3. FIFO queue for orders
 order_queue = []
+    order_queue.append(order)
+    return render_template('kitchen_queue.html', orders=order_queue)
 
 # helper to enqueue an order
 def enqueue_order(order):
