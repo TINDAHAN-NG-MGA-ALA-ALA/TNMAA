@@ -65,6 +65,11 @@ def quicksort_price(items):
 # 3. FIFO queue for orders
 order_queue = []
 
+# helper to enqueue an order
+def enqueue_order(order):
+    """Add an order to the FIFO queue."""
+    order_queue.append(order)
+
 # 4. Recursive total calculator
 def recursive_sum(items, index=0):
     if index >= len(items):
